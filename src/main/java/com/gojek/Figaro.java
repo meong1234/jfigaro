@@ -3,7 +3,7 @@ package com.gojek;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -22,7 +22,7 @@ public class Figaro {
             try {
                 String yamlFileName = getYamlFileName();
                 configuration = new YamlConfiguration(appEnvironment, yamlFileName);
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 logger.error("yaml configuration was not found", e);
                 e.printStackTrace();
                 return null;

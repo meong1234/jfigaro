@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
 import java.util.Objects;
@@ -17,13 +17,13 @@ class YamlConfiguration extends ApplicationConfiguration {
     private String env;
 
     @SuppressWarnings("unchecked")
-    YamlConfiguration(String env, String yamlFileName) throws FileNotFoundException {
+    YamlConfiguration(String env, String yamlFileName) throws IOException {
         this.env = env;
         logger.debug("loading resource {} for {}", yamlFileName, this.env);
         URL resource = getClass().getResource(yamlFileName);
         Yaml yaml = new Yaml();
-        FileInputStream fileInputStream = new FileInputStream(resource.getFile());
-        configuration = (Map<String, Object>) yaml.load(fileInputStream);
+        InputStream is = resource.openStream();
+        configuration = (Map<String, Object>) yaml.load(is);
 
     }
 

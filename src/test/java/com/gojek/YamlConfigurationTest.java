@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -16,31 +16,31 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @PrepareForTest({YamlConfiguration.class})
 public class YamlConfigurationTest {
     @Test
-    public void shouldLoadConfig() throws FileNotFoundException {
+    public void shouldLoadConfig() throws IOException {
         YamlConfiguration test = new YamlConfiguration("development", "/application-yaml-configuration-test.yml");
         assertEquals("foo", test.getValue("shouldLoadConfig"));
     }
 
     @Test
-    public void shouldLoadConfigBasedOnEnvironment() throws FileNotFoundException {
+    public void shouldLoadConfigBasedOnEnvironment() throws IOException {
         YamlConfiguration test = new YamlConfiguration("test", "/application-yaml-configuration-test.yml");
         assertEquals("bar", test.getValue("shouldLoadConfigBasedOnEnvironment"));
     }
 
     @Test
-    public void shouldUseDefaultConfiWhenSpecificValueIsNotSet() throws FileNotFoundException {
+    public void shouldUseDefaultConfiWhenSpecificValueIsNotSet() throws IOException {
         YamlConfiguration test = new YamlConfiguration("test", "/application-yaml-configuration-test.yml");
         assertEquals("defaultFoo", test.getValue("shouldUseDefaultConfiWhenSpecificValueIsNotSet"));
     }
 
     @Test
-    public void shouldUseDefaultConfigWhenSpecificEncironmentIsNotSet() throws FileNotFoundException {
+    public void shouldUseDefaultConfigWhenSpecificEncironmentIsNotSet() throws IOException {
         YamlConfiguration test = new YamlConfiguration("something", "/application-yaml-configuration-test.yml");
         assertEquals("defaultFoo", test.getValue("shouldUseDefaultConfiWhenSpecificValueIsNotSet"));
     }
 
     @Test
-    public void shouldAllowEnvironmentOverride() throws FileNotFoundException {
+    public void shouldAllowEnvironmentOverride() throws IOException {
         mockStatic(System.class);
         when(System.getenv("shouldUseDefaultConfiWhenSpecificValueIsNotSet")).thenReturn("envOverrideFoo");
         YamlConfiguration test = new YamlConfiguration("something", "/application-yaml-configuration-test.yml");
